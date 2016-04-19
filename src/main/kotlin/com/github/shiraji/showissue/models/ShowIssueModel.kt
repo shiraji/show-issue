@@ -7,6 +7,7 @@ import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.project.Project
 import git4idea.GitLocalBranch
 import git4idea.GitUtil
+import git4idea.repo.GitRepository
 
 class ShowIssueModel(e: AnActionEvent) {
     private val project: Project? = e.getData(CommonDataKeys.PROJECT)
@@ -24,6 +25,13 @@ class ShowIssueModel(e: AnActionEvent) {
 
         val currentBranch = getCurrentBranch() ?: return null
         return currentBranch.getIssueIdFromBranchName()
+    }
+
+    fun getDefaultIssueUrl(): String? {
+        project ?: return null
+
+        val remotes = GitUtil.getRepositoryManager(project).repositories.first().remotes
+        return remotes.single { it.name == "upstream" }.firstUrl ?: remotes.single { it.name == "origin" }.firstUrl
     }
 
     private fun getCurrentBranch(): GitLocalBranch? {

@@ -8,10 +8,11 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 class ShowIssueAction : AnAction() {
     override fun actionPerformed(e: AnActionEvent?) {
         e ?: return
-        val issueId = ShowIssueModel(e).getIssueIdFromBranch() ?: return
+        val model = ShowIssueModel(e)
+        val issueId = model.getIssueIdFromBranch() ?: return
 
         // TODO : Get URL from origin or upstream url as a default value
-        BrowserUtil.open("https://github.com/shiraji/find-pull-request/issues/$issueId")
+        BrowserUtil.open("${model.getDefaultIssueUrl()}$issueId")
     }
 
     override fun update(e: AnActionEvent?) {
