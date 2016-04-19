@@ -21,7 +21,16 @@
   <project-components>
   </project-components>
 
+  <depends>Git4Idea</depends>
+
   <actions>
+    <action id="com.github.shiraji.findpullrequest.action.FindPullRequestAction"
+            class="com.github.shiraji.showissue.actions.ShowIssueAction"
+            text="Show Issue">
+      <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+      <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+      <add-to-group group-id="EditorTabPopupMenu" anchor="last"/>
+    </action>
   </actions>
 
 </idea-plugin>
