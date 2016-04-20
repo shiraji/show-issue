@@ -10,9 +10,9 @@ class ShowIssueAction : AnAction() {
         e ?: return
         val model = ShowIssueModel(e)
         val issueId = model.getIssueIdFromBranch() ?: return
-
-        // TODO : Get URL from origin or upstream url as a default value
-        BrowserUtil.open("${model.getDefaultIssueUrl()}$issueId")
+        val issueUrl = model.getIssueUrl() ?: return
+        BrowserUtil.open("$issueUrl$issueId")
+        model.saveIssueUrl(issueUrl)
     }
 
     override fun update(e: AnActionEvent?) {

@@ -1,5 +1,6 @@
 package com.github.shiraji.showissue.models
 
+import com.github.shiraji.showissue.configs.ShowIssueConfig
 import com.github.shiraji.showissue.doesBranchHasIssueId
 import com.github.shiraji.showissue.getIssueIdFromBranchName
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -7,7 +8,6 @@ import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.project.Project
 import git4idea.GitLocalBranch
 import git4idea.GitUtil
-import git4idea.repo.GitRepository
 
 class ShowIssueModel(e: AnActionEvent) {
     private val project: Project? = e.getData(CommonDataKeys.PROJECT)
@@ -27,7 +27,21 @@ class ShowIssueModel(e: AnActionEvent) {
         return currentBranch.getIssueIdFromBranchName()
     }
 
-    fun getDefaultIssueUrl(): String? {
+    fun getIssueUrl(): String? {
+        project ?: return null
+        if (ShowIssueConfig.hasIssuePath(project)) {
+            return ShowIssueConfig.getIssuePath(project)
+        } else {
+            return getDefaultIssueUrl()
+        }
+    }
+
+    fun saveIssueUrl(issueUrl: String) {
+        project ?: return
+        ShowIssueConfig.setIssuePath(project, issueUrl)
+    }
+
+    private fun getDefaultIssueUrl(): String? {
         project ?: return null
 
         val remotes = GitUtil.getRepositoryManager(project).repositories.first().remotes
