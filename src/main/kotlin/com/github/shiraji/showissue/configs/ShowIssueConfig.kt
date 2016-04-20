@@ -17,6 +17,9 @@ class ShowIssueConfig {
         fun hasIssuePath(project: Project)
                 = PropertiesComponent.getInstance(project).isValueSet(ISSUE_PATH_KEY)
 
+        fun clearIssuePath(project: Project)
+                = PropertiesComponent.getInstance(project).unsetValue(ISSUE_PATH_KEY)
+
         fun setBranchRegEx(project: Project, regex: String)
                 = PropertiesComponent.getInstance(project).setValue(BRANCH_REGEX_KEY, regex)
 
