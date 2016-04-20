@@ -8,6 +8,7 @@ import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.project.Project
 import git4idea.GitLocalBranch
 import git4idea.GitUtil
+import org.jetbrains.plugins.github.util.GithubUrlUtil
 
 class ShowIssueModel(e: AnActionEvent) {
     private val project: Project? = e.getData(CommonDataKeys.PROJECT)
@@ -16,6 +17,9 @@ class ShowIssueModel(e: AnActionEvent) {
         if (project == null || project.isDisposed) {
             return false
         }
+
+        //        ShowIssueConfig.clearIssuePath(project)
+
         val currentBranch = getCurrentBranch() ?: return false
         return currentBranch.doesBranchHasIssueId()
     }
@@ -45,7 +49,8 @@ class ShowIssueModel(e: AnActionEvent) {
         project ?: return null
 
         val remotes = GitUtil.getRepositoryManager(project).repositories.first().remotes
-        return remotes.single { it.name == "upstream" }.firstUrl ?: remotes.single { it.name == "origin" }.firstUrl
+        val remoteUrl = remotes.single { it.name == "upstream" }.firstUrl ?: remotes.single { it.name == "origin" }.firstUrl ?: return null
+        return "${GithubUrlUtil.makeGithubRepoUrlFromRemoteUrl(remoteUrl, "https://" + GithubUrlUtil.getHostFromUrl(remoteUrl))}/issues/"
     }
 
     private fun getCurrentBranch(): GitLocalBranch? {
