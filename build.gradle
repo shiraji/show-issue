@@ -17,7 +17,7 @@ apply plugin: 'kotlin'
 
 intellij {
     version '15.0.4'
-    plugins 'git4idea'
+    plugins = ['github', 'git4idea']
     pluginName 'Show Issue'
 }
 

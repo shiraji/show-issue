@@ -21,6 +21,7 @@
   <project-components>
   </project-components>
 
+  <depends>org.jetbrains.plugins.github</depends>
   <depends>Git4Idea</depends>
 
   <actions>
