@@ -1,8 +1,6 @@
 package com.github.shiraji.showissue.models
 
 import com.github.shiraji.showissue.configs.ShowIssueConfig
-import com.github.shiraji.showissue.doesBranchHasIssueId
-import com.github.shiraji.showissue.getIssueIdFromBranchName
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.project.Project
@@ -18,14 +16,16 @@ class ShowIssueModel(e: AnActionEvent) {
     fun isEnable(): Boolean {
         if (!isVisible()) return false
         val currentBranch = getCurrentBranch() ?: return false
-        return currentBranch.doesBranchHasIssueId()
+        if(!ShowIssueConfig.hasBranchRegEx(project!!)) {
+            ShowIssueConfig.setBranchRegEx(project, "(\\d\\d*)\\D.*")
+        }
+        return ShowIssueConfig.getBranchRegEx(project!!)?.toRegex()?.matches(currentBranch.name) ?: false
     }
 
     fun getIssueIdFromBranch(): Int? {
         if (!isEnable()) return null
-
         val currentBranch = getCurrentBranch() ?: return null
-        return currentBranch.getIssueIdFromBranchName()
+        return ShowIssueConfig.getBranchRegEx(project!!)?.toRegex()?.find(currentBranch.name)!!.groups[1]!!.value.toInt()
     }
 
     fun getIssueUrl(): String? {
