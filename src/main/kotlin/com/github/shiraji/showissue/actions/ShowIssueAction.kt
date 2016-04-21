@@ -18,6 +18,8 @@ class ShowIssueAction : AnAction() {
     override fun update(e: AnActionEvent?) {
         e ?: return
         super.update(e)
-        e.presentation.isEnabledAndVisible = ShowIssueModel(e).isEnable()
+        val model = ShowIssueModel(e)
+        e.presentation.isVisible = model.isVisible()
+        e.presentation.isEnabled = model.isEnable()
     }
 }

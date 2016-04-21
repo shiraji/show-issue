@@ -13,13 +13,10 @@ import org.jetbrains.plugins.github.util.GithubUrlUtil
 class ShowIssueModel(e: AnActionEvent) {
     private val project: Project? = e.getData(CommonDataKeys.PROJECT)
 
+    fun isVisible() = project != null && !project.isDisposed
+
     fun isEnable(): Boolean {
-        if (project == null || project.isDisposed) {
-            return false
-        }
-
-        //        ShowIssueConfig.clearIssuePath(project)
-
+        if (!isVisible()) return false
         val currentBranch = getCurrentBranch() ?: return false
         return currentBranch.doesBranchHasIssueId()
     }
