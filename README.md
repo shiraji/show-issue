@@ -5,3 +5,8 @@ This project won't be publish at this moment. If I found a great use case for th
 This is intellij plugin that do following:
 
 if branch name is `123_fix_bug`, then it opens `https://GITHUB-DOMAIN/USRNAME/PROJECT/issues/123`
+
+# TODO
+
+* Customizable branch name format
+* Customizable issue path format
