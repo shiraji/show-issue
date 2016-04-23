@@ -19,7 +19,7 @@ class ShowIssueModel(e: AnActionEvent) {
         if(!ShowIssueConfig.hasBranchRegEx(project!!)) {
             ShowIssueConfig.setBranchRegEx(project, "(\\d\\d*)\\D.*")
         }
-        return ShowIssueConfig.getBranchRegEx(project!!)?.toRegex()?.matches(currentBranch.name) ?: false
+        return ShowIssueConfig.getBranchRegEx(project)?.toRegex()?.matches(currentBranch.name) ?: false
     }
 
     fun getIssueIdFromBranch(): Int? {
